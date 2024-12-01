@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from views import View
 import time
+from models.perfil import Perfil, Perfis
 
 class ManterClienteUI:
     def main():
@@ -24,12 +25,13 @@ class ManterClienteUI:
             st.dataframe(df)
 
     def inserir():
+
         nome = st.text_input("Informe o nome do cliente")
         email = st.text_input("Informe o e-mail")
         fone = st.text_input("Informe o fone")
         senha = st.text_input("Informe a senha", type="password")
         if st.button("Inserir"):
-            View.cliente_inserir(nome, email, fone, senha)
+            View.cliente_inserir(nome, email, fone, senha, idperfil)
             st.success("Cliente inserido com sucesso")
             time.sleep(2)
             st.rerun()
@@ -45,7 +47,7 @@ class ManterClienteUI:
             fone = st.text_input("Informe o novo fone", op.fone)
             senha = st.text_input("Informe a nova senha", op.senha, type="password")
             if st.button("Atualizar"):
-                View.cliente_atualizar(op.id, nome, email, fone, senha)
+                View.cliente_atualizar(op.id, nome, email, fone, senha, op.IDperfil)
                 st.success("Cliente atualizado com sucesso")
                 time.sleep(2)
                 st.rerun()

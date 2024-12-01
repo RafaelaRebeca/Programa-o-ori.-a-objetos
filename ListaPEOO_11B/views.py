@@ -1,31 +1,93 @@
 from models.cliente import Cliente, Clientes
 from models.horario import Horario, Horarios
 from models.servico import Servico, Servicos
+from models.perfil import Perfil, Perfis
+from models.profissional import Profissional, Profissionais
 from datetime import datetime, timedelta
 
 class View:
     def cliente_admin():
         for c in View.cliente_listar():
             if c.email == "admin": return
-        View.cliente_inserir("admin", "admin", "1234", "1234")
+        View.cliente_inserir("admin", "admin", "1234", "1234", "")
+
+
+#PERFIS=========================================
+
+
+    def perfil_inserir(nome, desc, bene):
+        c = Perfil(0, nome, desc, bene)
+        Perfis.inserir(c)
+
+    def perfil_listar():
+        return Perfis.listar()
+
+    def perfil_atualizar(id, nome, desc, bene):
+        c = Perfil(id, nome, desc, bene)
+        Perfis.atualizar(c)
+
+    def perfil_excluir(id):
+        c = Perfil(id, "", "", "")
+        Perfis.excluir(c)
+
+#PROFISSIONAIS==========================================================
+
+
+
+    def profissional_inserir(nome, espe, cons, email, senha):
+        c = Profissional(0, nome, espe, cons, email, senha)
+        Profissionais.inserir(c)
+
+    def profissional_listar():
+        return Profissionais.listar()
+
+    def profissional_atualizar(id, nome, espe, cons, email, senha):
+        c = Profissional(id, nome, espe, cons, email, senha)
+        Profissionais.atualizar(c)
+
+    def profissional_excluir(id):
+        c = Profissional(id, "", "", "", "", "")
+        Profissionais.excluir(c)
+
+    def pro_abrir_agenda(data, hora_inicio, hora_fim, intervalo):
+        i = data + " " + hora_inicio   
+        f = data + " " + hora_fim     
+        d = timedelta(minutes=intervalo)
+        di = datetime.strptime(i, "%d/%m/%Y %H:%M")
+        df = datetime.strptime(f, "%d/%m/%Y %H:%M")
+        x = di
+        while x <= df:
+            View.horario_inserir(x, False, None, None)
+            x = x + d
+
+    def profissional_autenticar(email, senha):
+        for p in View.profissional_listar():
+            if p.email == email and p.senha == senha:
+                return {"id" : p.id, "nome" : p.nome }
+        return None
+
+
+
+#CLIENTES=====================================
 
     def cliente_inserir(nome, email, fone, senha):
-        c = Cliente(0, nome, email, fone, senha)
+        c = Cliente(0, nome, email, fone, senha, 0)
         Clientes.inserir(c)
 
     def cliente_listar():
         return Clientes.listar()    
 
     def cliente_listar_id(id):
-        return Clientes.listar_id(id)    
+        return Clientes.listar_id(id)
 
-    def cliente_atualizar(id, nome, email, fone, senha):
-        c = Cliente(id, nome, email, fone, senha)
+
+    def cliente_atualizar(id, nome, email, fone, senha, IDperfil):
+        c = Cliente(id, nome, email, fone, senha, 0)
         Clientes.atualizar(c)
 
     def cliente_excluir(id):
-        c = Cliente(id, "", "", "", "")
-        Clientes.excluir(c)    
+        c = Cliente(id, "", "", "", "", "")
+        Clientes.excluir(c)  
 
     def cliente_autenticar(email, senha):
         for c in View.cliente_listar():
@@ -33,6 +95,9 @@ class View:
                 return {"id" : c.id, "nome" : c.nome }
         return None
 
+
+
+#HORARIOS ===========================================================================
     def horario_inserir(data, confirmado, id_cliente, id_servico):
         c = Horario(0, data)
         c.confirmado = confirmado
@@ -78,6 +143,9 @@ class View:
             #passar para o próximo horário
             x = x + d
 
+
+#SERVIÇOS ========================================================
+
     def servico_inserir(descricao, valor, duracao):
         c = Servico(0, descricao, valor, duracao)
         Servicos.inserir(c)
@@ -95,3 +163,6 @@ class View:
     def servico_excluir(id):
         c = Servico(id, "", 0, 0)
         Servicos.excluir(c)    
+
+
+
