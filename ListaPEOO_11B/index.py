@@ -45,25 +45,39 @@ class IndexUI:
             del st.session_state["cliente_nome"]
             st.rerun()
     
+
+
+
     def sidebar():
-        if "cliente_id" not in st.session_state:
+        if "tipo" not in st.session_state:
             # usuário não está logado
             IndexUI.menu_visitante()   
         else:
-
-            clientes = [cliente.nome for cliente in View.cliente_listar()]
-            pros = [profissional.nome for profissional in View.profissional_listar()]
-
-            cliente_nome = st.session_state.get("cliente_nome", "")
-
+            
+            
             st.sidebar.write("Bem-vindo(a), " + st.session_state["cliente_nome"])
+            
+            if st.session_state.tipo == "cliente":
+                IndexUI.menu_cliente()
 
-            if cliente_nome == "admin": IndexUI.menu_admin()
-            elif cliente_nome in clientes: IndexUI.menu_cliente()
-            elif cliente_nome in pros: IndexUI.menu_pro()
+            elif st.session_state.tipo == "profissional":
+                IndexUI.menu_pro()
+
+            elif st.session_state.tipo == "admin":
+                IndexUI.menu_admin() 
+             
+
+           
+            
+
+            
             # controle de sair do sistema
-            IndexUI.sair_do_sistema()  
+            IndexUI.sair_do_sistema()
     
+
+
+
+
     def main():
         # verifica a existe o usuário admin
         View.cliente_admin()
