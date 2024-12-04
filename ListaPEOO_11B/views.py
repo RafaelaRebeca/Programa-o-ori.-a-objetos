@@ -92,7 +92,7 @@ class View:
     def cliente_autenticar(email, senha):
         for c in View.cliente_listar():
             if c.email == email and c.senha == senha:
-                return {"id" : c.id, "nome" : c.nome }
+                return {"id" : c.id, "nome" : c.nome}
         return None
 
 

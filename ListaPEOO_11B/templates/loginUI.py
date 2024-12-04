@@ -19,7 +19,7 @@ class LoginUI:
                 st.rerun()
 
             if p != None:
-                st.session_state["cliente_id"] = c["id"]
-                st.session_state["cliente_nome"] = c["nome"]
+                st.session_state["profissional_id"] = p["id"]
+                st.session_state["profissional_nome"] = p["nome"]
                 st.session_state["tipo"] = "profissional"
                 st.rerun()

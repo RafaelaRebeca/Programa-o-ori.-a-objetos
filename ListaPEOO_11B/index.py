@@ -55,19 +55,16 @@ class IndexUI:
         else:
             
             
-            st.sidebar.write("Bem-vindo(a), " + st.session_state["cliente_nome"])
+            st.sidebar.write("Bem-vindo(a), " + st.session_state["tipo"])
             
-            if st.session_state.tipo == "cliente":
+            if st.session_state["tipo"] == "cliente":
                 IndexUI.menu_cliente()
 
-            elif st.session_state.tipo == "profissional":
+            elif st.session_state["tipo"] == "profissional":
                 IndexUI.menu_pro()
 
-            elif st.session_state.tipo == "admin":
+            elif st.session_state["tipo"] == "admin":
                 IndexUI.menu_admin() 
-             
-
-           
             
 
             
